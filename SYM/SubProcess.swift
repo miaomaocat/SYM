@@ -142,7 +142,8 @@ extension SubProcess {
 // MARK: - GCD
 
 func asyncGlobal(_ block: @escaping ()->()) {
-    DispatchQueue.global(priority: .high).async(execute: block)
+    
+    DispatchQueue.global(qos: .userInteractive).async(execute: block)
 }
 
 func asyncMain(_ block: @escaping ()->()) {
