@@ -69,6 +69,7 @@ class ContentViewController: NSViewController {
         
         self.view.window?.center()
     }
+    
 }
 
 extension ContentViewController: DocumentContentDelegate {
@@ -94,7 +95,7 @@ extension ContentViewController: SymDelegate {
         var sym: Sym?
         switch type {
         case .apple:
-            sym = AppleTool(delegate: self)
+            sym = Atos(delegate: self)
         case .umeng:
             sym = Atos(delegate: self)
         default:
@@ -173,4 +174,30 @@ extension ContentViewController {
             })
         }
     }
+    
+    @IBAction func openCrashFile(_ sender: AnyObject?) {
+        
+        let panel = NSOpenPanel()
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = false
+        panel.beginSheetModal(for: self.view.window!) {
+            (result) in
+            if result != NSFileHandlingPanelOKButton {
+                return
+            }
+            
+            if panel.urls.count == 0 {
+                return
+            }
+            
+            let url = panel.urls[0]
+            
+            
+            let content = try! NSString(contentsOf: url, encoding: String.Encoding.utf8.rawValue)
+            
+            self.textView.string = content as String
+        }
+
+    }
+    
 }

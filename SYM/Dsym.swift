@@ -106,6 +106,7 @@ class DsymManager {
         if self.dsyms == nil {
             return nil
         }
+        
         for dsym in self.dsyms! {
             if dsym.uuids.index(of: uuid) != nil {
                 return dsym

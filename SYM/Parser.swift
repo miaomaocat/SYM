@@ -49,11 +49,19 @@ extension Image {
         
         self.backtrace?.append(frame)
     }
-    
+
+    // ios
     // 0x19a8d8000 - 0x19a8f4fff libsystem_m.dylib arm64  <ee3277089d2b310c81263e5fbcbb3138> /usr/lib/system/libsystem_m.dylib
+    
+    // mac
+    //0x108867000 -        0x109340fef +com.alibaba.Alimail (0.9.0.0 - 34) <D88784C2-09C2-3D82-9B3F-FF7707DCF6C6> /Applications/Alimail.app/Contents/MacOS/Alimail
 
-    static let re = RE.compile("\\s*(0[xX][A-Fa-f0-9]+)\\s+-\\s+\\w+\\s+([^\\s]+)\\s*(\\w+)\\s*<(.*)>")!
+    // ios
+    //static let re = RE.compile("\\s*(0[xX][A-Fa-f0-9]+)\\s+-\\s+\\w+\\s+([^\\s]+)\\s*(\\w+)\\s*<(.*)>")!
 
+    // mac
+    static let re = RE.compile("\\s*(0[xX][A-Fa-f0-9]+)\\s+-\\s+\\w+\\s\\+([^\\s]+)\\s*\\(([0-9.]+\\s-\\s[0-9]+)\\)\\s+<(.*)> .*")!
+    
     convenience init?(line: String) {
         guard let g = Image.re.match(line) else {
             return nil
@@ -63,7 +71,10 @@ extension Image {
         
         self.loadAddress = g[0]
         self.name = g[1]
-        self.uuid = g[3].uuidFormat()
+        
+        // todo
+        //self.uuid = g[3].uuidFormat()
+        self.uuid = g[3]
     }
 }
 

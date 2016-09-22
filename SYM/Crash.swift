@@ -35,6 +35,7 @@ class Frame {
     var address: String
     var symbol: String?
     var lineNumber: Int?
+    var symbolized: Bool
     
     static let re = RE.compile("^\\s*(\\d{1,3})\\s+([^ ]+)\\s+(0[xX][A-Fa-f0-9]+)\\s+(.*)")!
     
@@ -48,6 +49,7 @@ class Frame {
         self.address = g[2]
         self.symbol = g[3]
         self.lineNumber = nil
+        self.symbolized = false
     }
 }
 
@@ -84,7 +86,7 @@ enum CrashType: Int {
             return .csv
         } else if crash.contains("Application received") {
             return .umeng
-        } else if crash.contains("Incident Identifier") {
+        } else if crash.contains("Incident Identifier") || crash.contains("Identifier:") {
             return .apple
         }
         

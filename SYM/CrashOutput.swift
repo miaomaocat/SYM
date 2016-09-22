@@ -64,7 +64,7 @@ extension Crash {
         
         for (index, line) in lines.enumerated() {
             if let frame = backtrace[index] {
-                if frame.image == self.appName {
+                if frame.symbolized {
                     let startIndex = result.length
                     result.append(self.formatFrame(frame))
                     let endIndex = result.length

@@ -124,6 +124,7 @@ class Atos: Sym {
             asyncMain {
                 for (index, symbol) in result.enumerated() {
                     image.backtrace![index].symbol = symbol
+                    image.backtrace![index].symbolized = true
                 }
                 self.taskCompleted()
             }

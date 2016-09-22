@@ -71,9 +71,13 @@ class SubProcess: Operation {
 
 extension SubProcess {
     convenience init(loadAddress: String, addressess: [String], dsym: String,
-         binary: String, arch: String = "arm64") {
-        let cmd = "/usr/bin/atos"
-        let arguments = ["-arch", arch, "-o", dsym, "-l", loadAddress] + addressess
+         binary: String, arch: String = "x86_64") {
+        let cmd = "/usr/bin/xcrun"
+        let arguments = ["atos", "-arch", "x86_64", "-o", dsym, "-l", loadAddress] + addressess
+        
+        
+        //xcrun atos -o Alimail.app.dSYM/Contents/Resources/DWARF/Alimail -arch x86_64 -l 0x109cf5000 0x000000010a12a942 0x000000010a129b4e 0x000000010a0e848e 0x000000010a12d329 0x000000010a0dee7c 0x000000010a135b8c 0x000000010a088e29 0x0000000109e56bcb
+
         
         self.init(cmd: cmd, arguments: arguments)
     }
