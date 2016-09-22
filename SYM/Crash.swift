@@ -63,7 +63,7 @@ class Image {
 class Crash {
     let content: String
     var reason: String?
-    var arch: String = "arm64"
+    var arch: String = "x86_64"
     var appName: String?
     var images:[String: Image]?
     
