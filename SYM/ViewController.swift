@@ -51,6 +51,7 @@ class ContentViewController: NSViewController {
         self.textView.textContainerInset = CGSize(width: 10, height: 10)
         self.textView.allowsUndo = true
         self.textView.delegate = self
+        self.textView.isEditable = true
     }
     
     override func viewWillAppear() {
@@ -124,6 +125,8 @@ extension ContentViewController: SymDelegate {
 }
 
 extension ContentViewController: TextViewDelegate {
+    
+    /*
     func textView(_ view: NSTextView, menu: NSMenu, for event: NSEvent, at charIndex: Int) -> NSMenu? {
         let menu = NSMenu(title: "dSYM")
         let showItem = NSMenuItem(title: "Symbolicate", action: #selector(symbolicate), keyEquivalent: "")
@@ -131,7 +134,7 @@ extension ContentViewController: TextViewDelegate {
         menu.addItem(showItem)
         menu.allowsContextMenuPlugIns = true
         return menu
-    }
+    }*/
     
     func textViewDidreadSelectionFromPasteboard() {
         asyncMain {
