@@ -37,6 +37,9 @@ class Frame {
     var lineNumber: Int?
     var symbolized: Bool
     
+    var appName: String?
+    var appIdentify: String?
+    
     static let re = RE.compile("^\\s*(\\d{1,3})\\s+([^ ]+)\\s+(0[xX][A-Fa-f0-9]+)\\s+(.*)")!
     
     init?(line: String) {
@@ -50,6 +53,20 @@ class Frame {
         self.symbol = g[3]
         self.lineNumber = nil
         self.symbolized = false
+    }
+    
+    func processAppSpecificFrame() {
+        guard let appName = self.appName else {
+            return
+        }
+        
+        guard let appIdentify = self.appIdentify else {
+            return
+        }
+        
+        if self.image == appName {
+            self.image = appIdentify
+        }
     }
 }
 
@@ -65,6 +82,7 @@ class Crash {
     var reason: String?
     var arch: String = "x86_64"
     var appName: String?
+    var appIdentifier: String?
     var images:[String: Image]?
     
     init(content: String) {

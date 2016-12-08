@@ -154,6 +154,13 @@ class Parser {
         return nil
     }
     
+    static func getAppIndentify(_ line: String) -> String? {
+        if let identify = line.separatedValue {
+            return identify.strip()
+        }
+        return nil
+    }
+    
     static func parseAppleCrash(_ crash: inout Crash) {
         let lines = crash.content.components(separatedBy: "\n")
         var binaryImagesSectionStarted = false
@@ -164,10 +171,16 @@ class Parser {
                 crash.reason = value.separatedValue
             } else if value.hasPrefix("Process") {
                 crash.appName = self.getBinary(line)
+            } else if value.hasPrefix("Identifier") {
+                crash.appIdentifier = self.getAppIndentify(line)
             } else if value.hasPrefix("Binary Images:") {
                 binaryImagesSectionStarted = true
             } else if let frame = Frame(line: line) {
                 frame.lineNumber = index
+                frame.appName = crash.appName
+                frame.appIdentify = crash.appIdentifier
+                frame.processAppSpecificFrame()
+                
                 crash.addFrame(frame)
             } else {
                 if !binaryImagesSectionStarted || crash.images == nil {
